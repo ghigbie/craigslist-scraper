@@ -36,11 +36,10 @@ const scrapeJobDescriptions = async (listings, page) => {
         listings[i].compensation = compensation
         console.log('COMP', compensation);
         await sleep(1000); // puases execution for 1 second
-
+    }
     console.log('***************************');
     console.log(listings);
     console.log('***************************');
-    }
 }
 
 const main = async () => {
