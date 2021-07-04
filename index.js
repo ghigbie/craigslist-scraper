@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const $ = require('cheerio');
 
 const link = "https://sfbay.craigslist.org/d/software-ga-dba-etc/search/sof"
 
@@ -7,7 +8,8 @@ const main = async () => {
     const page = await browser.newPage();
     await page.goto(link);
     const html = await page.content();
-    console.log(html);
+    const $ = cheerio.load(html);
+    $(".result-title").each((index, element) => console.log($(element).text()));
 }
 
 main();
