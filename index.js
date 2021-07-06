@@ -1,5 +1,12 @@
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
+const mongoose = require('mongoose');
+const creds = require('./creds');
+
+const connectToMongoDB = async () => {
+    const connectionURL = `mongodb+srv://${creds.username}:${creds.password}@cluster0.ei9du.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+    console.log('connected to mongodb');
+}
 
 const sleep = async (miliseconds) => {
     return new Promise(resolve => setTimeout(resolve, miliseconds));
@@ -43,6 +50,7 @@ const scrapeJobDescriptions = async (listings, page) => {
 }
 
 const main = async () => {
+    await connectToMongoDB();
     const link = "https://sfbay.craigslist.org/d/software-ga-dba-etc/search/sof"
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
