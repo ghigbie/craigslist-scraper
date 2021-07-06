@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const mongoose = require('mongoose');
 const creds = require('./creds');
+const Listing = require('./model/Listing');
 
 const connectToMongoDB = async () => {
     const connectionURL = `mongodb+srv://${creds.username}:${creds.password}@cluster0.ei9du.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -41,7 +42,8 @@ const scrapeJobDescriptions = async (listings, page) => {
         const compensation = $('p.attrgroup > span:nth-child(1) > b').text();
         listings[i].jobDescription = jobDescription;
         listings[i].compensation = compensation
-        console.log('COMP', compensation);
+        const listingModel = new Listing(listing);
+        await listingModel.save();
         await sleep(1000); // puases execution for 1 second
     }
     console.log('***************************');
